@@ -26,8 +26,9 @@ Here is a few animations of the extension in Action
 
 * lease note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
-[10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip)
-[10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip)
+    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip)
+
+    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip)
 
 ## Extension Settings
 
