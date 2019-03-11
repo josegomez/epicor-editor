@@ -1,8 +1,9 @@
 {
 	"name": "epicor-editor",
 	"displayName": "Epicor Customization Editor",
+	"publisher": "josecgomez",
 	"description": "An external customization editor for Epicor",
-	"version": "1.1.1",
+	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
