@@ -1,0 +1,82 @@
+{
+	"name": "epicor-editor",
+	"displayName": "Epicor Customization Editor",
+	"description": "An external customization editor for Epicor",
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.31.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.openepicorcustomization",
+		"onCommand:extension.updateepicorcustomization",
+		"onCommand:extension.launch",
+		"onCommand:extension.editinepicor",
+		"onCommand:extension.debug"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.openepicorcustomization",
+				"title": "Epicor Customization (OPEN)"
+			},
+			{
+				"command": "extension.updateepicorcustomization",
+				"title": "Epicor Customization (SYNC)"
+			},
+			{
+				"command": "extension.launch",
+				"title": "Epicor Customization (TEST)"
+			},
+			{
+				"command": "extension.editinepicor",
+				"title": "Epicor Customization (EDIT CONTROLS)"
+			},
+			{
+				"command": "extension.debug",
+				"title": "Epicor Customization (DEBUG) DnSpy"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Epicor Configuration",
+			"properties": {
+				"epicor.clientfolder": {
+					"type": "string",
+					"default": "",
+					"description": "Epicor Client Folder"
+				},
+				"epicor.customizationfolder": {
+					"type": "string",
+					"default": "",
+					"description": "Folder where you'd like to store your Epicor Customization projects"
+				},
+				"epicor.dnspylocation": {
+					"type": "string",
+					"default": "",
+					"description": "Folder where DNSpy is installed (For Debugging)"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"tslint": "^5.12.1",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"unirest": "^0.6.0"
+	}
+}
