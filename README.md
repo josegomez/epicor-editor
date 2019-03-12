@@ -25,7 +25,7 @@ Here is a few animations of the extension in Action
 
 * If you want to be able to debug using DNSpy you will have to download and install [DNSpy] (https://github.com/0xd4d/dnSpy/releases) and extract it into a folder of your choosing
 
-* lease note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
+* Please note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
     [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip)
 
