@@ -29,6 +29,8 @@ Here is a few animations of the extension in Action
 
     [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip)
 
+    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip)
+
     [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip)
 
 ## Extension Settings
@@ -50,3 +52,6 @@ This extension contributes the following settings:
 ### 0.0.9
 
 Initial release 
+
+### 0.7.0
+Added support for 10.2.200
