@@ -3,8 +3,9 @@
 	"displayName": "Epicor Customization Editor",
 	"publisher": "josecgomez",
 	"description": "An external customization editor for Epicor",
-	"version": "0.8.0",
+	"version": "0.7.0",
 	"repository": "https://github.com/josegomez/epicor-editor.git",
+	"icon": "images/Logo-128x128.fw.png",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
