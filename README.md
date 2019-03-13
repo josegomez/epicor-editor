@@ -1,11 +1,14 @@
 # epicor-editor README
 
 This is an experimental Visual Studio Code Extension which allows you to Edit, Test and Debug Epicor Customizations right from VS Code
-# THIS IS HIGHLY EXPERIMENTAL RIGHT NOW USE AT YOUR OWN RISK THIS WILL BE TAKEN DOWN WHEN / IF ITS READY FOR MOST PEOPLE TO USE
+# THIS IS HIGHLY EXPERIMENTAL RIGHT NOW USE AT YOUR OWN RISK THIS WILL BE TAKEN DOWN WHEN / IF ITS READY FOR MOST PEOPLE TO USE.
+
 
 ## Features
 
 This is an experimental extension which will allow you to Edit, Test and Debug Epicor Customizations right from VS Code. It can be quite handy specially for the code auto complete feature that VS Code Provides.
+
+I would love some testers, and some feedback, open issues in GitHub. Thanks!
 
 
 
