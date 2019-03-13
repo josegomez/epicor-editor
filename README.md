@@ -15,7 +15,7 @@ Here is a few animations of the extension in Action
 
 ![Editing / Running a Customization](images/VSCodeSyncTest.gif)
 
-![Debugging a Customization using DnSpy](images/VSCodeSyncTest.gif)
+![Debugging a Customization using DnSpy](images/VSCodeDebug.gif)
 
 
 
@@ -55,3 +55,6 @@ Initial release
 
 ### 0.7.0
 Added support for 10.2.200
+
+### 0.14.0
+Fixed a bunch of issues, download a new version of the helper lib.
