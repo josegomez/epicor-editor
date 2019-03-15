@@ -61,3 +61,8 @@ Added support for 10.2.200
 
 ### 0.14.0
 Fixed a bunch of issues, download a new version of the helper lib.
+### 0.15.0
+* Added support for Dashboard Customizations
+* Fixed UD support
+* Fixed exported customization format
+* Escaped XML conflicting characters
