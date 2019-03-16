@@ -66,3 +66,5 @@ Fixed a bunch of issues, download a new version of the helper lib.
 * Fixed UD support
 * Fixed exported customization format
 * Escaped XML conflicting characters
+### 0.16.0
+* Added support for MES Customization
