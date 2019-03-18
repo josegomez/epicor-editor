@@ -68,6 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
 		//window.showInformationMessage('Update');
 		vscode.workspace.saveAll(false);
 		var openFolder = vscode.workspace.rootPath;
+		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
 		const customSettings = require(openFolder+'/CustomizationInfo.json');
 
 		var argsAry:string[]=[];
@@ -99,6 +100,16 @@ export function activate(context: vscode.ExtensionContext) {
 		argsAry.push(String(customSettings.ProjectFolder));
 		argsAry.push("-a");
 		argsAry.push("Update");
+		argsAry.push("-v");
+		if(customSettings.Version){
+			argsAry.push("-v");
+			argsAry.push(String(customSettings.Version));
+		}
+		if(customSettings.Encrypted)
+		{
+			argsAry.push("-e");
+			argsAry.push(String(customSettings.Encrypted));
+		}
                 
 		const { spawn } = require('child_process');
 		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
@@ -125,6 +136,7 @@ export function activate(context: vscode.ExtensionContext) {
 		//vscode.window.showInformationMessage('Hello World!');
 
 		var openFolder = vscode.workspace.rootPath;
+		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
 		const customSettings = require(openFolder+'/CustomizationInfo.json');
 
 		var argsAry:string[]=[];
@@ -156,6 +168,11 @@ export function activate(context: vscode.ExtensionContext) {
 		argsAry.push(String(customSettings.ProjectFolder));
 		argsAry.push("-a");
 		argsAry.push("Launch");
+		if(customSettings.Encrypted)
+		{
+			argsAry.push("-e");
+			argsAry.push(String(customSettings.Encrypted));
+		}
                 
 		const { spawn } = require('child_process');
 		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
@@ -185,6 +202,7 @@ export function activate(context: vscode.ExtensionContext) {
 		//vscode.window.showInformationMessage('Hello World!');
 
 		var openFolder = vscode.workspace.rootPath;
+		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
 		const customSettings = require(openFolder+'/CustomizationInfo.json');
 
 		var argsAry:string[]=[];
@@ -217,7 +235,11 @@ export function activate(context: vscode.ExtensionContext) {
 		
 		argsAry.push("-a");
 		argsAry.push("Edit");
-                
+        if(customSettings.Encrypted)
+		{
+			argsAry.push("-e");
+			argsAry.push(String(customSettings.Encrypted));
+		}         
 		const { spawn } = require('child_process');
 		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
 		bat.stdout.on('data', (data:string) => {
@@ -245,6 +267,7 @@ export function activate(context: vscode.ExtensionContext) {
 		//vscode.window.showInformationMessage('Hello World!');
 
 		var openFolder = vscode.workspace.rootPath;
+		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
 		const customSettings = require(openFolder+'/CustomizationInfo.json');
 
 		var argsAry:string[]=[];
@@ -280,7 +303,11 @@ export function activate(context: vscode.ExtensionContext) {
 		argsAry.push(String(epicorSettings.DNSpy));
 		argsAry.push("-a");
 		argsAry.push("Debug");
-                
+        if(customSettings.Encrypted)
+		{
+			argsAry.push("-e");
+			argsAry.push(String(customSettings.Encrypted));
+		}        
 		const { spawn } = require('child_process');
 		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
 		bat.stdout.on('data', (data:string) => {

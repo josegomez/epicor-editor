@@ -68,3 +68,6 @@ Fixed a bunch of issues, download a new version of the helper lib.
 * Escaped XML conflicting characters
 ### 0.16.0
 * Added support for MES Customization
+### 0.17.0
+* Fixed issue with versioning added Sync Check to Commit to ensure that no overrides occur accidentally.
+* Changed plain text password to encrypted password for extra security
