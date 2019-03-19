@@ -80,7 +80,8 @@ export function activate(context: vscode.ExtensionContext) {
       // Display a message box to the user
       //vscode.window.showInformationMessage('Hello World!');
 
-      //window.showInformationMessage('Update');
+	  //window.showInformationMessage('Update');
+	  VersionCheck(epicorSettings);
       vscode.workspace.saveAll(false);
       var openFolder = vscode.workspace.rootPath;
       delete require.cache[
@@ -154,7 +155,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Display a message box to the user
     //vscode.window.showInformationMessage('Hello World!');
-
+	VersionCheck(epicorSettings);
     var openFolder = vscode.workspace.rootPath;
     delete require.cache[
       require.resolve(openFolder + "/CustomizationInfo.json")
@@ -230,7 +231,7 @@ export function activate(context: vscode.ExtensionContext) {
         require.resolve(openFolder + "/CustomizationInfo.json")
       ];
       const customSettings = require(openFolder + "/CustomizationInfo.json");
-
+	  VersionCheck(epicorSettings);
       var argsAry: string[] = [];
       argsAry.push("-c");
       argsAry.push(String(customSettings.ConfigFile));
@@ -299,7 +300,7 @@ export function activate(context: vscode.ExtensionContext) {
       require.resolve(openFolder + "/CustomizationInfo.json")
     ];
     const customSettings = require(openFolder + "/CustomizationInfo.json");
-
+	VersionCheck(epicorSettings);
     var argsAry: string[] = [];
     argsAry.push("-c");
     argsAry.push(String(customSettings.ConfigFile));
@@ -369,7 +370,7 @@ export function activate(context: vscode.ExtensionContext) {
         require.resolve(openFolder + "/CustomizationInfo.json")
       ];
       const customSettings = require(openFolder + "/CustomizationInfo.json");
-
+	  VersionCheck(epicorSettings);
       var argsAry: string[] = [];
       argsAry.push("-c");
       argsAry.push(String(customSettings.ConfigFile));
