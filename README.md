@@ -86,3 +86,6 @@ Initial release
 
 ### 0.21.0
 * Changed to Beta status for initial release
+
+### 0.22.0
+* Added support for omnisharp restart
