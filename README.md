@@ -73,3 +73,5 @@ Fixed a bunch of issues, download a new version of the helper lib.
 * Changed plain text password to encrypted password for extra security
 ### 0.18.0
 * Bug Fix
+### 0.19.0
+* Versioned Links
