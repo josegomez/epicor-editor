@@ -3,7 +3,7 @@
 	"displayName": "Epicor Customization Editor",
 	"publisher": "josecgomez",
 	"description": "An external customization editor for Epicor",
-	"version": "0.25.0",
+	"version": "0.26.0",
 	"repository": "https://github.com/josegomez/epicor-editor.git",
 	"icon": "images/Logo-128x128.fw.png",
 	"engines": {
@@ -88,5 +88,7 @@
 		"request": "^2.88.0",
 		"unirest": "^0.6.0"
 	},
-	"extensionDependencies": ["ms-vscode.csharp"]
+	"extensionDependencies": [
+		"ms-vscode.csharp"
+	]
 }
