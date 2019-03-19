@@ -50,8 +50,6 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-
-
 ### 0.0.9
 
 Initial release 
