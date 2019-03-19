@@ -99,3 +99,6 @@ Initial release
 
 ### 0.23.0
 * Initial beta release
+
+### 0.24.0
+* Added version popup checker alert to the extension.

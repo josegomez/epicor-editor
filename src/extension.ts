@@ -1,440 +1,520 @@
-import { EpicorSettings } from './epicorhelper';
+import { EpicorSettings } from "./epicorhelper";
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
-import {window} from 'vscode';
-import {showInputBox} from './dialog';
-import * as epicor from './epicorhelper';
-import { Uri} from 'vscode';
+import * as vscode from "vscode";
+import { window } from "vscode";
+import { showInputBox } from "./dialog";
+import * as epicor from "./epicorhelper";
+import { Uri } from "vscode";
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
 let myStatusBarItem: vscode.StatusBarItem;
 export function activate(context: vscode.ExtensionContext) {
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
+  // This line of code will only be executed once when your extension is activated
+  console.log('Congratulations, your extension "epicor-editor" is now active!');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-		console.log('Congratulations, your extension "epicor-editor" is now active!');
+  // The command has been defined in the package.json file
+  // Now provide the implementation of the command with registerCommand
+  // The commandId parameter must match the command field in package.json
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
+  const config = vscode.workspace.getConfiguration();
+  var epicorSettings: EpicorSettings = new EpicorSettings(
+    config.get("epicor.customizationfolder"),
+    config.get("epicor.clientfolder"),
+    config.get("epicor.dnspylocation")
+  );
 
-	const config = vscode.workspace.getConfiguration();
-	var epicorSettings:EpicorSettings = new EpicorSettings(config.get('epicor.customizationfolder'),config.get('epicor.clientfolder'), config.get('epicor.dnspylocation'));
-	
-	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-	context.subscriptions.push(myStatusBarItem);
+  myStatusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100
+  );
+  context.subscriptions.push(myStatusBarItem);
 
-	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem));
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem)
+  );
 
-	let disposable = vscode.commands.registerCommand('extension.openepicorcustomization', () => {
-		// The code you place here will be executed every time your command is executed
-		var argsAry:string[]=[];
+  let disposable = vscode.commands.registerCommand(
+    "extension.openepicorcustomization",
+    () => {
+      // The code you place here will be executed every time your command is executed
+      var argsAry: string[] = [];
+      VersionCheck(epicorSettings);
+      argsAry.push("-f");
+      argsAry.push(String(epicorSettings.epicorClientFolder));
+      argsAry.push("-r");
+      argsAry.push(String(epicorSettings.epicorCustomizationFolder));
+      argsAry.push("-a");
+      argsAry.push("Add");
+      var newFolder: string = "";
+      const { spawn } = require("child_process");
+      const bat = spawn(
+        epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+        argsAry,
+        { cwd: String(epicorSettings.epicorClientFolder) }
+      );
+      bat.stdout.on("data", (data: string) => {
+        console.log(String(data));
+        newFolder = String(data);
+      });
 
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-r");
-		argsAry.push(String(epicorSettings.epicorCustomizationFolder));
-		argsAry.push("-a");
-		argsAry.push("Add");
-        var newFolder:string="";        
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-			newFolder = String(data);
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(newFolder.trim());
-			vscode.commands.executeCommand('vscode.openFolder', uri);
-		});   
+      bat.stderr.on("data", (data: string) => {
+        console.log(String(data));
+      });
 
+      bat.on("exit", (code: string) => {
+        console.log(`Child exited with code ${code}`);
+        let uri = Uri.file(newFolder.trim());
+        vscode.commands.executeCommand("vscode.openFolder", uri);
+      });
+    }
+  );
 
-	});
+  let disposable2 = vscode.commands.registerCommand(
+    "extension.updateepicorcustomization",
+    () => {
+      // The code you place here will be executed every time your command is executed
 
-	let disposable2 = vscode.commands.registerCommand('extension.updateepicorcustomization', () => {
-		// The code you place here will be executed every time your command is executed
+      // Display a message box to the user
+      //vscode.window.showInformationMessage('Hello World!');
 
-		// Display a message box to the user
-		//vscode.window.showInformationMessage('Hello World!');
+      //window.showInformationMessage('Update');
+      vscode.workspace.saveAll(false);
+      var openFolder = vscode.workspace.rootPath;
+      delete require.cache[
+        require.resolve(openFolder + "/CustomizationInfo.json")
+      ];
+      const customSettings = require(openFolder + "/CustomizationInfo.json");
 
-		//window.showInformationMessage('Update');
-		vscode.workspace.saveAll(false);
-		var openFolder = vscode.workspace.rootPath;
-		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
-		const customSettings = require(openFolder+'/CustomizationInfo.json');
+      var argsAry: string[] = [];
+      argsAry.push("-c");
+      argsAry.push(String(customSettings.ConfigFile));
+      argsAry.push("-u");
+      argsAry.push(String(customSettings.Username));
+      argsAry.push("-p");
+      argsAry.push(String(customSettings.Password));
+      argsAry.push("-t");
+      argsAry.push(String(customSettings.ProductType));
+      argsAry.push("-l");
+      argsAry.push(String(customSettings.LayerType));
+      argsAry.push("-k");
+      argsAry.push(String(customSettings.Key1));
+      argsAry.push("-m");
+      argsAry.push(String(customSettings.Key2));
+      argsAry.push("-n");
+      argsAry.push(String(customSettings.Key3));
+      argsAry.push("-g");
+      argsAry.push(String(customSettings.CSGCode));
+      argsAry.push("-f");
+      argsAry.push(String(epicorSettings.epicorClientFolder));
+      argsAry.push("-o");
+      argsAry.push(String(customSettings.Company));
+      argsAry.push("-r");
+      argsAry.push(String(customSettings.Folder));
+      argsAry.push("-j");
+      argsAry.push(String(customSettings.ProjectFolder));
+      argsAry.push("-a");
+      argsAry.push("Update");
+      if (customSettings.Version) {
+        argsAry.push("-v");
+        argsAry.push(String(customSettings.Version));
+      }
+      if (customSettings.Encrypted) {
+        argsAry.push("-e");
+        argsAry.push(String(customSettings.Encrypted));
+      }
 
-		var argsAry:string[]=[];
-		argsAry.push("-c");
-		argsAry.push(String(customSettings.ConfigFile));
-		argsAry.push("-u");
-		argsAry.push(String(customSettings.Username));
-		argsAry.push("-p");
-		argsAry.push(String(customSettings.Password));
-		argsAry.push("-t");
-		argsAry.push(String(customSettings.ProductType));
-		argsAry.push("-l");
-		argsAry.push(String(customSettings.LayerType));
-		argsAry.push("-k");
-		argsAry.push(String(customSettings.Key1));
-		argsAry.push("-m");
-		argsAry.push(String(customSettings.Key2));
-		argsAry.push("-n");
-		argsAry.push(String(customSettings.Key3));
-		argsAry.push("-g");
-		argsAry.push(String(customSettings.CSGCode));
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-o");
-		argsAry.push(String(customSettings.Company));
-		argsAry.push("-r");
-		argsAry.push(String(customSettings.Folder));
-		argsAry.push("-j");
-		argsAry.push(String(customSettings.ProjectFolder));
-		argsAry.push("-a");
-		argsAry.push("Update");
-		if(customSettings.Version){
-			argsAry.push("-v");
-			argsAry.push(String(customSettings.Version));
-		}
-		if(customSettings.Encrypted)
-		{
-			argsAry.push("-e");
-			argsAry.push(String(customSettings.Encrypted));
-		}
-                
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(customSettings.ProjectFolder);
-			vscode.commands.executeCommand('vscode.openFolder', uri);
-			omniSharpHelper();
-		});   
+      const { spawn } = require("child_process");
+      const bat = spawn(
+        epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+        argsAry,
+        { cwd: String(epicorSettings.epicorClientFolder) }
+      );
+      bat.stdout.on("data", (data: string) => {
+        console.log(String(data));
+      });
 
-	});
+      bat.stderr.on("data", (data: string) => {
+        console.log(String(data));
+      });
 
-	let disposable3 = vscode.commands.registerCommand('extension.launch', () => {
-		// The code you place here will be executed every time your command is executed
+      bat.on("exit", (code: string) => {
+        console.log(`Child exited with code ${code}`);
+        let uri = Uri.file(customSettings.ProjectFolder);
+        vscode.commands.executeCommand("vscode.openFolder", uri);
+        omniSharpHelper();
+      });
+    }
+  );
 
-		// Display a message box to the user
-		//vscode.window.showInformationMessage('Hello World!');
+  let disposable3 = vscode.commands.registerCommand("extension.launch", () => {
+    // The code you place here will be executed every time your command is executed
 
-		var openFolder = vscode.workspace.rootPath;
-		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
-		const customSettings = require(openFolder+'/CustomizationInfo.json');
+    // Display a message box to the user
+    //vscode.window.showInformationMessage('Hello World!');
 
-		var argsAry:string[]=[];
-		argsAry.push("-c");
-		argsAry.push(String(customSettings.ConfigFile));
-		argsAry.push("-u");
-		argsAry.push(String(customSettings.Username));
-		argsAry.push("-p");
-		argsAry.push(String(customSettings.Password));
-		argsAry.push("-t");
-		argsAry.push(String(customSettings.ProductType));
-		argsAry.push("-l");
-		argsAry.push(String(customSettings.LayerType));
-		argsAry.push("-k");
-		argsAry.push(String(customSettings.Key1));
-		argsAry.push("-m");
-		argsAry.push(String(customSettings.Key2));
-		argsAry.push("-n");
-		argsAry.push(String(customSettings.Key3));
-		argsAry.push("-g");
-		argsAry.push(String(customSettings.CSGCode));
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-o");
-		argsAry.push(String(customSettings.Company));
-		argsAry.push("-r");
-		argsAry.push(String(customSettings.Folder));
-		argsAry.push("-j");
-		argsAry.push(String(customSettings.ProjectFolder));
-		argsAry.push("-a");
-		argsAry.push("Launch");
-		if(customSettings.Encrypted)
-		{
-			argsAry.push("-e");
-			argsAry.push(String(customSettings.Encrypted));
-		}
-                
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(customSettings.ProjectFolder);
-			vscode.commands.executeCommand('vscode.openFolder', uri);
-			omniSharpHelper();
-		});   
-		
+    var openFolder = vscode.workspace.rootPath;
+    delete require.cache[
+      require.resolve(openFolder + "/CustomizationInfo.json")
+    ];
+    const customSettings = require(openFolder + "/CustomizationInfo.json");
 
+    var argsAry: string[] = [];
+    argsAry.push("-c");
+    argsAry.push(String(customSettings.ConfigFile));
+    argsAry.push("-u");
+    argsAry.push(String(customSettings.Username));
+    argsAry.push("-p");
+    argsAry.push(String(customSettings.Password));
+    argsAry.push("-t");
+    argsAry.push(String(customSettings.ProductType));
+    argsAry.push("-l");
+    argsAry.push(String(customSettings.LayerType));
+    argsAry.push("-k");
+    argsAry.push(String(customSettings.Key1));
+    argsAry.push("-m");
+    argsAry.push(String(customSettings.Key2));
+    argsAry.push("-n");
+    argsAry.push(String(customSettings.Key3));
+    argsAry.push("-g");
+    argsAry.push(String(customSettings.CSGCode));
+    argsAry.push("-f");
+    argsAry.push(String(epicorSettings.epicorClientFolder));
+    argsAry.push("-o");
+    argsAry.push(String(customSettings.Company));
+    argsAry.push("-r");
+    argsAry.push(String(customSettings.Folder));
+    argsAry.push("-j");
+    argsAry.push(String(customSettings.ProjectFolder));
+    argsAry.push("-a");
+    argsAry.push("Launch");
+    if (customSettings.Encrypted) {
+      argsAry.push("-e");
+      argsAry.push(String(customSettings.Encrypted));
+    }
 
-	});
-	
+    const { spawn } = require("child_process");
+    const bat = spawn(
+      epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+      argsAry,
+      { cwd: String(epicorSettings.epicorClientFolder) }
+    );
+    bat.stdout.on("data", (data: string) => {
+      console.log(String(data));
+    });
 
-	let disposable4 = vscode.commands.registerCommand('extension.editinepicor', () => {
-		// The code you place here will be executed every time your command is executed
+    bat.stderr.on("data", (data: string) => {
+      console.log(String(data));
+    });
 
-		// Display a message box to the user
-		//vscode.window.showInformationMessage('Hello World!');
+    bat.on("exit", (code: string) => {
+      console.log(`Child exited with code ${code}`);
+      let uri = Uri.file(customSettings.ProjectFolder);
+      vscode.commands.executeCommand("vscode.openFolder", uri);
+      omniSharpHelper();
+    });
+  });
 
-		var openFolder = vscode.workspace.rootPath;
-		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
-		const customSettings = require(openFolder+'/CustomizationInfo.json');
+  let disposable4 = vscode.commands.registerCommand(
+    "extension.editinepicor",
+    () => {
+      // The code you place here will be executed every time your command is executed
 
-		var argsAry:string[]=[];
-		argsAry.push("-c");
-		argsAry.push(String(customSettings.ConfigFile));
-		argsAry.push("-u");
-		argsAry.push(String(customSettings.Username));
-		argsAry.push("-p");
-		argsAry.push(String(customSettings.Password));
-		argsAry.push("-t");
-		argsAry.push(String(customSettings.ProductType));
-		argsAry.push("-l");
-		argsAry.push(String(customSettings.LayerType));
-		argsAry.push("-k");
-		argsAry.push(String(customSettings.Key1));
-		argsAry.push("-m");
-		argsAry.push(String(customSettings.Key2));
-		argsAry.push("-n");
-		argsAry.push(String(customSettings.Key3));
-		argsAry.push("-g");
-		argsAry.push(String(customSettings.CSGCode));
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-o");
-		argsAry.push(String(customSettings.Company));
-		argsAry.push("-r");
-		argsAry.push(String(customSettings.Folder));
-		argsAry.push("-j");
-		argsAry.push(String(customSettings.ProjectFolder));
-		
-		argsAry.push("-a");
-		argsAry.push("Edit");
-        if(customSettings.Encrypted)
-		{
-			argsAry.push("-e");
-			argsAry.push(String(customSettings.Encrypted));
-		}         
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(customSettings.ProjectFolder);
-			vscode.commands.executeCommand('vscode.openFolder', uri);
-			omniSharpHelper();
-		});   
-		
+      // Display a message box to the user
+      //vscode.window.showInformationMessage('Hello World!');
 
+      var openFolder = vscode.workspace.rootPath;
+      delete require.cache[
+        require.resolve(openFolder + "/CustomizationInfo.json")
+      ];
+      const customSettings = require(openFolder + "/CustomizationInfo.json");
 
-	});
+      var argsAry: string[] = [];
+      argsAry.push("-c");
+      argsAry.push(String(customSettings.ConfigFile));
+      argsAry.push("-u");
+      argsAry.push(String(customSettings.Username));
+      argsAry.push("-p");
+      argsAry.push(String(customSettings.Password));
+      argsAry.push("-t");
+      argsAry.push(String(customSettings.ProductType));
+      argsAry.push("-l");
+      argsAry.push(String(customSettings.LayerType));
+      argsAry.push("-k");
+      argsAry.push(String(customSettings.Key1));
+      argsAry.push("-m");
+      argsAry.push(String(customSettings.Key2));
+      argsAry.push("-n");
+      argsAry.push(String(customSettings.Key3));
+      argsAry.push("-g");
+      argsAry.push(String(customSettings.CSGCode));
+      argsAry.push("-f");
+      argsAry.push(String(epicorSettings.epicorClientFolder));
+      argsAry.push("-o");
+      argsAry.push(String(customSettings.Company));
+      argsAry.push("-r");
+      argsAry.push(String(customSettings.Folder));
+      argsAry.push("-j");
+      argsAry.push(String(customSettings.ProjectFolder));
 
-	let disposable5 = vscode.commands.registerCommand('extension.debug', () => {
-		// The code you place here will be executed every time your command is executed
+      argsAry.push("-a");
+      argsAry.push("Edit");
+      if (customSettings.Encrypted) {
+        argsAry.push("-e");
+        argsAry.push(String(customSettings.Encrypted));
+      }
+      const { spawn } = require("child_process");
+      const bat = spawn(
+        epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+        argsAry,
+        { cwd: String(epicorSettings.epicorClientFolder) }
+      );
+      bat.stdout.on("data", (data: string) => {
+        console.log(String(data));
+      });
 
-		// Display a message box to the user
-		//vscode.window.showInformationMessage('Hello World!');
+      bat.stderr.on("data", (data: string) => {
+        console.log(String(data));
+      });
 
-		var openFolder = vscode.workspace.rootPath;
-		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
-		const customSettings = require(openFolder+'/CustomizationInfo.json');
+      bat.on("exit", (code: string) => {
+        console.log(`Child exited with code ${code}`);
+        let uri = Uri.file(customSettings.ProjectFolder);
+        vscode.commands.executeCommand("vscode.openFolder", uri);
+        omniSharpHelper();
+      });
+    }
+  );
 
-		var argsAry:string[]=[];
-		argsAry.push("-c");
-		argsAry.push(String(customSettings.ConfigFile));
-		argsAry.push("-u");
-		argsAry.push(String(customSettings.Username));
-		argsAry.push("-p");
-		argsAry.push(String(customSettings.Password));
-		argsAry.push("-t");
-		argsAry.push(String(customSettings.ProductType));
-		argsAry.push("-l");
-		argsAry.push(String(customSettings.LayerType));
-		argsAry.push("-k");
-		argsAry.push(String(customSettings.Key1));
-		argsAry.push("-m");
-		argsAry.push(String(customSettings.Key2));
-		argsAry.push("-n");
-		argsAry.push(String(customSettings.Key3));
-		argsAry.push("-g");
-		argsAry.push(String(customSettings.CSGCode));
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-o");
-		argsAry.push(String(customSettings.Company));
-		argsAry.push("-r");
-		argsAry.push(String(customSettings.Folder));
-		argsAry.push("-j");
-		argsAry.push(String(customSettings.ProjectFolder));
-		argsAry.push("-d");
-		argsAry.push(String(customSettings.DLLLocation));
-		argsAry.push("-y");
-		argsAry.push(String(epicorSettings.DNSpy));
-		argsAry.push("-a");
-		argsAry.push("Debug");
-        if(customSettings.Encrypted)
-		{
-			argsAry.push("-e");
-			argsAry.push(String(customSettings.Encrypted));
-		}        
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-		});   
-		
+  let disposable5 = vscode.commands.registerCommand("extension.debug", () => {
+    // The code you place here will be executed every time your command is executed
 
+    // Display a message box to the user
+    //vscode.window.showInformationMessage('Hello World!');
 
-	});
-	
+    var openFolder = vscode.workspace.rootPath;
+    delete require.cache[
+      require.resolve(openFolder + "/CustomizationInfo.json")
+    ];
+    const customSettings = require(openFolder + "/CustomizationInfo.json");
 
+    var argsAry: string[] = [];
+    argsAry.push("-c");
+    argsAry.push(String(customSettings.ConfigFile));
+    argsAry.push("-u");
+    argsAry.push(String(customSettings.Username));
+    argsAry.push("-p");
+    argsAry.push(String(customSettings.Password));
+    argsAry.push("-t");
+    argsAry.push(String(customSettings.ProductType));
+    argsAry.push("-l");
+    argsAry.push(String(customSettings.LayerType));
+    argsAry.push("-k");
+    argsAry.push(String(customSettings.Key1));
+    argsAry.push("-m");
+    argsAry.push(String(customSettings.Key2));
+    argsAry.push("-n");
+    argsAry.push(String(customSettings.Key3));
+    argsAry.push("-g");
+    argsAry.push(String(customSettings.CSGCode));
+    argsAry.push("-f");
+    argsAry.push(String(epicorSettings.epicorClientFolder));
+    argsAry.push("-o");
+    argsAry.push(String(customSettings.Company));
+    argsAry.push("-r");
+    argsAry.push(String(customSettings.Folder));
+    argsAry.push("-j");
+    argsAry.push(String(customSettings.ProjectFolder));
+    argsAry.push("-d");
+    argsAry.push(String(customSettings.DLLLocation));
+    argsAry.push("-y");
+    argsAry.push(String(epicorSettings.DNSpy));
+    argsAry.push("-a");
+    argsAry.push("Debug");
+    if (customSettings.Encrypted) {
+      argsAry.push("-e");
+      argsAry.push(String(customSettings.Encrypted));
+    }
+    const { spawn } = require("child_process");
+    const bat = spawn(
+      epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+      argsAry,
+      { cwd: String(epicorSettings.epicorClientFolder) }
+    );
+    bat.stdout.on("data", (data: string) => {
+      console.log(String(data));
+    });
 
-	let disposable6 = vscode.commands.registerCommand('extension.downloadcustomization', () => {
-		// The code you place here will be executed every time your command is executed
+    bat.stderr.on("data", (data: string) => {
+      console.log(String(data));
+    });
 
-		// Display a message box to the user
-		//vscode.window.showInformationMessage('Hello World!');
-		omniSharpHelper();
-		var openFolder = vscode.workspace.rootPath;
-		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
-		const customSettings = require(openFolder+'/CustomizationInfo.json');
+    bat.on("exit", (code: string) => {
+      console.log(`Child exited with code ${code}`);
+    });
+  });
 
-		var argsAry:string[]=[];
-		argsAry.push("-c");
-		argsAry.push(String(customSettings.ConfigFile));
-		argsAry.push("-u");
-		argsAry.push(String(customSettings.Username));
-		argsAry.push("-p");
-		argsAry.push(String(customSettings.Password));
-		argsAry.push("-t");
-		argsAry.push(String(customSettings.ProductType));
-		argsAry.push("-l");
-		argsAry.push(String(customSettings.LayerType));
-		argsAry.push("-k");
-		argsAry.push(String(customSettings.Key1));
-		argsAry.push("-m");
-		argsAry.push(String(customSettings.Key2));
-		argsAry.push("-n");
-		argsAry.push(String(customSettings.Key3));
-		argsAry.push("-g");
-		argsAry.push(String(customSettings.CSGCode));
-		argsAry.push("-f");
-		argsAry.push(String(epicorSettings.epicorClientFolder));
-		argsAry.push("-o");
-		argsAry.push(String(customSettings.Company));
-		argsAry.push("-r");
-		argsAry.push(String(customSettings.Folder));
-		argsAry.push("-j");
-		argsAry.push(String(customSettings.ProjectFolder));
-		
-		argsAry.push("-a");
-		argsAry.push("Download");
-        if(customSettings.Encrypted)
-		{
-			argsAry.push("-e");
-			argsAry.push(String(customSettings.Encrypted));
-		}         
-		const { spawn } = require('child_process');
-		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
-		bat.stdout.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.stderr.on('data', (data:string) => {
-			console.log(String(data));
-		});
-		
-		bat.on('exit', (code:string) => {
-			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(customSettings.ProjectFolder);
-			vscode.commands.executeCommand('vscode.openFolder', uri);
-			omniSharpHelper();
-		}); 
-	});
+  let disposable6 = vscode.commands.registerCommand(
+    "extension.downloadcustomization",
+    () => {
+      // The code you place here will be executed every time your command is executed
 
-	context.subscriptions.push(disposable);
-	context.subscriptions.push(disposable2);
-	context.subscriptions.push(disposable3);
-	context.subscriptions.push(disposable4);
-	context.subscriptions.push(disposable5);
-	
+      // Display a message box to the user
+      //vscode.window.showInformationMessage('Hello World!');
+      omniSharpHelper();
+      var openFolder = vscode.workspace.rootPath;
+      delete require.cache[
+        require.resolve(openFolder + "/CustomizationInfo.json")
+      ];
+      const customSettings = require(openFolder + "/CustomizationInfo.json");
 
+      var argsAry: string[] = [];
+      argsAry.push("-c");
+      argsAry.push(String(customSettings.ConfigFile));
+      argsAry.push("-u");
+      argsAry.push(String(customSettings.Username));
+      argsAry.push("-p");
+      argsAry.push(String(customSettings.Password));
+      argsAry.push("-t");
+      argsAry.push(String(customSettings.ProductType));
+      argsAry.push("-l");
+      argsAry.push(String(customSettings.LayerType));
+      argsAry.push("-k");
+      argsAry.push(String(customSettings.Key1));
+      argsAry.push("-m");
+      argsAry.push(String(customSettings.Key2));
+      argsAry.push("-n");
+      argsAry.push(String(customSettings.Key3));
+      argsAry.push("-g");
+      argsAry.push(String(customSettings.CSGCode));
+      argsAry.push("-f");
+      argsAry.push(String(epicorSettings.epicorClientFolder));
+      argsAry.push("-o");
+      argsAry.push(String(customSettings.Company));
+      argsAry.push("-r");
+      argsAry.push(String(customSettings.Folder));
+      argsAry.push("-j");
+      argsAry.push(String(customSettings.ProjectFolder));
+
+      argsAry.push("-a");
+      argsAry.push("Download");
+      if (customSettings.Encrypted) {
+        argsAry.push("-e");
+        argsAry.push(String(customSettings.Encrypted));
+      }
+      const { spawn } = require("child_process");
+      const bat = spawn(
+        epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",
+        argsAry,
+        { cwd: String(epicorSettings.epicorClientFolder) }
+      );
+      bat.stdout.on("data", (data: string) => {
+        console.log(String(data));
+      });
+
+      bat.stderr.on("data", (data: string) => {
+        console.log(String(data));
+      });
+
+      bat.on("exit", (code: string) => {
+        console.log(`Child exited with code ${code}`);
+        let uri = Uri.file(customSettings.ProjectFolder);
+        vscode.commands.executeCommand("vscode.openFolder", uri);
+        omniSharpHelper();
+      });
+    }
+  );
+
+  context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable2);
+  context.subscriptions.push(disposable3);
+  context.subscriptions.push(disposable4);
+  context.subscriptions.push(disposable5);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
 
 function updateStatusBarItem(): void {
-	
-	var openFolder = vscode.workspace.rootPath;
-	const customSettings = require(openFolder+'/CustomizationInfo.json');
-	if(customSettings!==undefined)
-	{
-		myStatusBarItem.text = `Epicor Customization ${customSettings.Key1} in Environment ${customSettings.ConfigFile}`;
-		myStatusBarItem.show();
-	}
-	else {
-		myStatusBarItem.hide();
-	}
+  var openFolder = vscode.workspace.rootPath;
+  const customSettings = require(openFolder + "/CustomizationInfo.json");
+  if (customSettings !== undefined) {
+    myStatusBarItem.text = `Epicor Customization ${
+      customSettings.Key1
+    } in Environment ${customSettings.ConfigFile}`;
+    myStatusBarItem.show();
+  } else {
+    myStatusBarItem.hide();
+  }
 }
 
-var omniSharpHelper = function(){
-	var omniSharp = vscode.extensions.getExtension("ms-vscode.csharp");
-	if(omniSharp!==undefined){
-		if(omniSharp.isActive===false)
-		{
-			omniSharp.activate().then(
-				function()
-				{
-					vscode.commands.executeCommand("o.restart");
-				}
-			);
-		}
-		else
-		{
-			vscode.commands.executeCommand("o.restart");
-		}
-	}
-	
+var omniSharpHelper = function() {
+  var omniSharp = vscode.extensions.getExtension("ms-vscode.csharp");
+  if (omniSharp !== undefined) {
+    if (omniSharp.isActive === false) {
+      omniSharp.activate().then(function() {
+        vscode.commands.executeCommand("o.restart");
+      });
+    } else {
+      vscode.commands.executeCommand("o.restart");
+    }
+  }
+};
+
+var VersionCheck = function(epicorSettings: EpicorSettings) {
+  var request = require("request");
+  request(
+    "https://raw.githubusercontent.com/josegomez/epicor-editor-helper/master/CommonClasses/CustomizationEditor.json?" +
+      rand(99999),
+    function(error: any, response: any, body: any) {
+      if (!error && response.statusCode === 200) {
+        var publishedVersion = JSON.parse(body);
+        try {
+          delete require.cache[
+            require.resolve(
+              epicorSettings.epicorClientFolder + "/CustomizationEditor.json"
+            )
+          ];
+        } catch (err) {}
+        try {
+          const currentVersion = require(epicorSettings.epicorClientFolder +
+            "/CustomizationEditor.json");
+          if (
+            currentVersion === undefined ||
+            publishedVersion.Version !== currentVersion.Version
+          ) {
+            window
+              .showInformationMessage(
+                "New Helper Library Version Availble!!",
+                "Go Download it"
+              )
+              .then(selection => {
+                const { exec } = require("child_process");
+                var pid = exec(
+                  "start https://marketplace.visualstudio.com/items?itemName=josecgomez.epicor-editor"
+                );
+              });
+          }
+        } catch (err) {
+          window
+            .showInformationMessage(
+              "New Helper Library Version Availble!!",
+              "Go Download it"
+            )
+            .then(selection => {
+              const { exec } = require("child_process");
+              var pid = exec(
+                "start https://marketplace.visualstudio.com/items?itemName=josecgomez.epicor-editor"
+              );
+            });
+        }
+      }
+    }
+  );
+};
+
+var rand = function getRandomInt(max: number) {
+  return Math.floor(Math.random() * Math.floor(max));
 };
