@@ -27,11 +27,11 @@ Here is a how to video of how it works, how to use it etc.
 
 * Please note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
-    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.23.0)
+    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.24.0)
 
-    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.23.0)
+    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.24.0)
 
-    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.23.0)
+    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.24.0)
 
 * Whenever there is a new version of the VS Code extension, odds are that there is a new version of the helper library too. So download it again (every time the extension changes). I know its annoying I'm working on a more automated way    
 
