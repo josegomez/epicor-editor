@@ -71,3 +71,5 @@ Fixed a bunch of issues, download a new version of the helper lib.
 ### 0.17.0
 * Fixed issue with versioning added Sync Check to Commit to ensure that no overrides occur accidentally.
 * Changed plain text password to encrypted password for extra security
+### 0.18.0
+* Bug Fix

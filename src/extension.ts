@@ -100,7 +100,6 @@ export function activate(context: vscode.ExtensionContext) {
 		argsAry.push(String(customSettings.ProjectFolder));
 		argsAry.push("-a");
 		argsAry.push("Update");
-		argsAry.push("-v");
 		if(customSettings.Version){
 			argsAry.push("-v");
 			argsAry.push(String(customSettings.Version));
