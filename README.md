@@ -1,7 +1,7 @@
 # epicor-editor README
 
 This is an experimental Visual Studio Code Extension which allows you to Edit, Test and Debug Epicor Customizations right from VS Code
-# THIS IS HIGHLY EXPERIMENTAL RIGHT NOW USE AT YOUR OWN RISK THIS WILL BE TAKEN DOWN WHEN / IF ITS READY FOR MOST PEOPLE TO USE.
+# THIS IS IN BETA, DO NOT USE IN PRODUCTION, BACKUP YOUR CUSTOMIZATION BEFORE USING.
 
 
 ## Features
@@ -75,3 +75,5 @@ Fixed a bunch of issues, download a new version of the helper lib.
 * Versioned Links
 ### 0.20.0
 * Added Download Only Option
+### 0.21.0
+* Changed to Beta status for initial release
