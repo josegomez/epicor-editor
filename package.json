@@ -17,7 +17,8 @@
 		"onCommand:extension.updateepicorcustomization",
 		"onCommand:extension.launch",
 		"onCommand:extension.editinepicor",
-		"onCommand:extension.debug"
+		"onCommand:extension.debug",
+		"onCommand:extension.downloadcustomization"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -28,7 +29,7 @@
 			},
 			{
 				"command": "extension.updateepicorcustomization",
-				"title": "Epicor Customization (SYNC)"
+				"title": "Epicor Customization (SYNC UP)"
 			},
 			{
 				"command": "extension.launch",
@@ -41,6 +42,10 @@
 			{
 				"command": "extension.debug",
 				"title": "Epicor Customization (DEBUG) DnSpy"
+			},
+			{
+				"command": "extension.downloadcustomization",
+				"title": "Epicor Customization (DOWNLOAD)"
 			}
 		],
 		"configuration": {

@@ -329,7 +329,67 @@ export function activate(context: vscode.ExtensionContext) {
 	
 
 
+	let disposable6 = vscode.commands.registerCommand('extension.downloadcustomization', () => {
+		// The code you place here will be executed every time your command is executed
 
+		// Display a message box to the user
+		//vscode.window.showInformationMessage('Hello World!');
+
+		var openFolder = vscode.workspace.rootPath;
+		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
+		const customSettings = require(openFolder+'/CustomizationInfo.json');
+
+		var argsAry:string[]=[];
+		argsAry.push("-c");
+		argsAry.push(String(customSettings.ConfigFile));
+		argsAry.push("-u");
+		argsAry.push(String(customSettings.Username));
+		argsAry.push("-p");
+		argsAry.push(String(customSettings.Password));
+		argsAry.push("-t");
+		argsAry.push(String(customSettings.ProductType));
+		argsAry.push("-l");
+		argsAry.push(String(customSettings.LayerType));
+		argsAry.push("-k");
+		argsAry.push(String(customSettings.Key1));
+		argsAry.push("-m");
+		argsAry.push(String(customSettings.Key2));
+		argsAry.push("-n");
+		argsAry.push(String(customSettings.Key3));
+		argsAry.push("-g");
+		argsAry.push(String(customSettings.CSGCode));
+		argsAry.push("-f");
+		argsAry.push(String(epicorSettings.epicorClientFolder));
+		argsAry.push("-o");
+		argsAry.push(String(customSettings.Company));
+		argsAry.push("-r");
+		argsAry.push(String(customSettings.Folder));
+		argsAry.push("-j");
+		argsAry.push(String(customSettings.ProjectFolder));
+		
+		argsAry.push("-a");
+		argsAry.push("Download");
+        if(customSettings.Encrypted)
+		{
+			argsAry.push("-e");
+			argsAry.push(String(customSettings.Encrypted));
+		}         
+		const { spawn } = require('child_process');
+		const bat = spawn(epicorSettings.epicorClientFolder+"\\CustomizationEditor.exe", argsAry, {'cwd':String(epicorSettings.epicorClientFolder)});
+		bat.stdout.on('data', (data:string) => {
+			console.log(String(data));
+		});
+		
+		bat.stderr.on('data', (data:string) => {
+			console.log(String(data));
+		});
+		
+		bat.on('exit', (code:string) => {
+			console.log(`Child exited with code ${code}`);
+			let uri = Uri.file(customSettings.ProjectFolder);
+			vscode.commands.executeCommand('vscode.openFolder', uri);
+		}); 
+	});
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
