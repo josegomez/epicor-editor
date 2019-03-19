@@ -123,7 +123,8 @@ export function activate(context: vscode.ExtensionContext) {
 		bat.on('exit', (code:string) => {
 			console.log(`Child exited with code ${code}`);
 			let uri = Uri.file(customSettings.ProjectFolder);
-		vscode.commands.executeCommand('vscode.openFolder', uri);
+			vscode.commands.executeCommand('vscode.openFolder', uri);
+			omniSharpHelper();
 		});   
 
 	});
@@ -186,7 +187,8 @@ export function activate(context: vscode.ExtensionContext) {
 		bat.on('exit', (code:string) => {
 			console.log(`Child exited with code ${code}`);
 			let uri = Uri.file(customSettings.ProjectFolder);
-		vscode.commands.executeCommand('vscode.openFolder', uri);
+			vscode.commands.executeCommand('vscode.openFolder', uri);
+			omniSharpHelper();
 		});   
 		
 
@@ -252,7 +254,8 @@ export function activate(context: vscode.ExtensionContext) {
 		bat.on('exit', (code:string) => {
 			console.log(`Child exited with code ${code}`);
 			let uri = Uri.file(customSettings.ProjectFolder);
-		vscode.commands.executeCommand('vscode.openFolder', uri);
+			vscode.commands.executeCommand('vscode.openFolder', uri);
+			omniSharpHelper();
 		});   
 		
 
@@ -319,8 +322,6 @@ export function activate(context: vscode.ExtensionContext) {
 		
 		bat.on('exit', (code:string) => {
 			console.log(`Child exited with code ${code}`);
-			let uri = Uri.file(customSettings.ProjectFolder);
-		vscode.commands.executeCommand('vscode.openFolder', uri);
 		});   
 		
 
@@ -334,7 +335,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Display a message box to the user
 		//vscode.window.showInformationMessage('Hello World!');
-
+		omniSharpHelper();
 		var openFolder = vscode.workspace.rootPath;
 		delete require.cache[require.resolve(openFolder+'/CustomizationInfo.json')];
 		const customSettings = require(openFolder+'/CustomizationInfo.json');
@@ -388,6 +389,7 @@ export function activate(context: vscode.ExtensionContext) {
 			console.log(`Child exited with code ${code}`);
 			let uri = Uri.file(customSettings.ProjectFolder);
 			vscode.commands.executeCommand('vscode.openFolder', uri);
+			omniSharpHelper();
 		}); 
 	});
 
@@ -416,3 +418,23 @@ function updateStatusBarItem(): void {
 		myStatusBarItem.hide();
 	}
 }
+
+var omniSharpHelper = function(){
+	var omniSharp = vscode.extensions.getExtension("ms-vscode.csharp");
+	if(omniSharp!==undefined){
+		if(omniSharp.isActive===false)
+		{
+			omniSharp.activate().then(
+				function()
+				{
+					vscode.commands.executeCommand("o.restart");
+				}
+			);
+		}
+		else
+		{
+			vscode.commands.executeCommand("o.restart");
+		}
+	}
+	
+};

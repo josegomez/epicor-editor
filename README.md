@@ -36,6 +36,8 @@ Here is a few animations of the extension in Action
 
     [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.20.0)
 
+* Whenever there is a new version of the VS Code extension, odds are that there is a new version of the helper library too. So download it again (every time the extension changes). I know its annoying I'm working on a more automated way    
+
 ## Extension Settings
 
 This extension contributes the following settings:
