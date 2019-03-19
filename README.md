@@ -6,19 +6,16 @@ This is an experimental Visual Studio Code Extension which allows you to Edit, T
 
 ## Features
 
-This is an experimental extension which will allow you to Edit, Test and Debug Epicor Customizations right from VS Code. It can be quite handy specially for the code auto complete feature that VS Code Provides.
+This is an extension which will allow you to Edit, Test and Debug Epicor Customizations right from VS Code. It can be quite handy specially for the code auto complete feature that VS Code Provides.
 
 I would love some testers, and some feedback, open issues in GitHub. Thanks!
 
+Here is a how to video of how it works, how to use it etc.
+
+[![Youtube How To](https://img.youtube.com/vi/JTZqZcwWnv8/0.jpg)](https://youtu.be/JTZqZcwWnv8 "Visual Studio Code Epicor Customization Editor")
 
 
-Here is a few animations of the extension in Action
 
-![Opening a Customization](images/VSCodeOpen.gif)
-
-![Editing / Running a Customization](images/VSCodeSyncTest.gif)
-
-![Debugging a Customization using DnSpy](images/VSCodeDebug.gif)
 
 
 
@@ -30,11 +27,11 @@ Here is a few animations of the extension in Action
 
 * Please note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
-    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.20.0)
+    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.23.0)
 
-    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.20.0)
+    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.23.0)
 
-    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.20.0)
+    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.23.0)
 
 * Whenever there is a new version of the VS Code extension, odds are that there is a new version of the helper library too. So download it again (every time the extension changes). I know its annoying I'm working on a more automated way    
 
@@ -45,6 +42,16 @@ This extension contributes the following settings:
 * `epicor.clientfolder`: Should point to the folder where your Epicor client is installed
 * `epicor.customizationfolder`: Should point to a folder where you'd like all the customization projects downloaded / created in
 * `epicor.dnspylocationr`: The folder in which you installed DNSpy 
+
+## Screenshots
+Here is a few animations of the extension in Action
+
+![Opening a Customization](images/VSCodeOpen.gif)
+
+![Editing / Running a Customization](images/VSCodeSyncTest.gif)
+
+![Debugging a Customization using DnSpy](images/VSCodeDebug.gif)
+
 
 ## Known Issues
 
@@ -89,3 +96,6 @@ Initial release
 
 ### 0.22.0
 * Added support for omnisharp restart
+
+### 0.23.0
+* Initial beta release
