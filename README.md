@@ -55,25 +55,32 @@ This extension contributes the following settings:
 Initial release 
 
 ### 0.7.0
-Added support for 10.2.200
+* Added support for 10.2.200
 
 ### 0.14.0
-Fixed a bunch of issues, download a new version of the helper lib.
+* Fixed a bunch of issues, download a new version of the helper lib.
+
 ### 0.15.0
 * Added support for Dashboard Customizations
 * Fixed UD support
 * Fixed exported customization format
 * Escaped XML conflicting characters
+
 ### 0.16.0
 * Added support for MES Customization
+
 ### 0.17.0
 * Fixed issue with versioning added Sync Check to Commit to ensure that no overrides occur accidentally.
 * Changed plain text password to encrypted password for extra security
+
 ### 0.18.0
 * Bug Fix
+
 ### 0.19.0
 * Versioned Links
+
 ### 0.20.0
 * Added Download Only Option
+
 ### 0.21.0
 * Changed to Beta status for initial release
