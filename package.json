@@ -3,7 +3,7 @@
 	"displayName": "Epicor Customization Editor",
 	"publisher": "josecgomez",
 	"description": "An external customization editor for Epicor",
-	"version": "0.30.0",
+	"version": "0.31.0",
 	"repository": "https://github.com/josegomez/epicor-editor.git",
 	"icon": "images/Logo-128x128.fw.png",
 	"engines": {
@@ -52,7 +52,6 @@
 				"command": "extension.launchwitht",
 				"title": "Epicor Customization (TOOLBOX)"
 			}
-			
 		],
 		"configuration": {
 			"type": "object",
