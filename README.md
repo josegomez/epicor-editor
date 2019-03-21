@@ -15,6 +15,8 @@ Here is a how to video of how it works, how to use it etc.
 [![Youtube How To](https://img.youtube.com/vi/JTZqZcwWnv8/0.jpg)](https://youtu.be/JTZqZcwWnv8 "Visual Studio Code Epicor Customization Editor")
 
 
+Tool box Demo
+[![Youtube Toolbox Demo](https://img.youtube.com/vi/lWd4L-QNZpM/0.jpg)](https://youtu.be/lWd4L-QNZpM "Visual Studio Code Customization Extension ToolBox Feature Demo")
 
 
 
@@ -27,13 +29,13 @@ Here is a how to video of how it works, how to use it etc.
 
 * Please note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
-    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.27.0)
+    [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.28.0)
 
-    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.27.0)
+    [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.28.0)
 
-    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.27.0)
+    [10.1.600.X](https://josecgomez.com/files/CustomizationHelper.10.1.600.X.zip?0.28.0)
 
-    [10.1.500.X](https://josecgomez.com/files/CustomizationHelper.10.1.500.X.zip?0.27.0)
+    [10.1.500.X](https://josecgomez.com/files/CustomizationHelper.10.1.500.X.zip?0.28.0)
 
 * Whenever there is a new version of the VS Code extension, odds are that there is a new version of the helper library too. So download it again (every time the extension changes). I know its annoying I'm working on a more automated way    
 
@@ -111,5 +113,10 @@ Initial release
 ### 0.28.0
 * Fixed themeing
 
-### 0.29.0
-* Established private cache
+### 0.31.0
+* Added the toolbox feature which allows a lot of new stuff to happen
+* ToolBox will bring up a form which will allow you to launch several epicor screens within the environment
+* ToolBox will also allow you to live edit back and fourth the code in the script and in epicor
+* ToolBox will allow you to Run and Test your customization
+* See new youtube demo above
+![ToolBox Demo](images/ToolBoxDemo.gif)
