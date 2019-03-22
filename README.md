@@ -120,3 +120,6 @@ Initial release
 * ToolBox will allow you to Run and Test your customization
 * See new youtube demo above
 ![ToolBox Demo](images/ToolBoxDemo.gif)
+
+### 0.32.0
+* Fixed issue with global companie vs local company customizations with the same Customer ID
