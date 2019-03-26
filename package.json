@@ -91,7 +91,8 @@
 	},
 	"dependencies": {
 		"request": "^2.88.0",
-		"unirest": "^0.6.0"
+		"unirest": "^0.6.0",
+		"vsce": "^1.59.0"
 	},
 	"extensionDependencies": [
 		"ms-vscode.csharp"
