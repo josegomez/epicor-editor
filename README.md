@@ -130,3 +130,6 @@ Initial release
 ### 0.37.0
 * Removed Launch, Debut and Edit options, that functionality has moved to the toolbox
 * Added support for 10.2.100.X [Thanks Brett!!](https://github.com/bmanners)
+
+### 0.38.0
+* Added Object Explorer option to toolbox
