@@ -15,9 +15,6 @@
 	"activationEvents": [
 		"onCommand:extension.openepicorcustomization",
 		"onCommand:extension.updateepicorcustomization",
-		"onCommand:extension.launch",
-		"onCommand:extension.editinepicor",
-		"onCommand:extension.debug",
 		"onCommand:extension.downloadcustomization",
 		"onCommand:extension.launchwitht"
 	],
@@ -31,18 +28,6 @@
 			{
 				"command": "extension.updateepicorcustomization",
 				"title": "Epicor Customization (SYNC UP)"
-			},
-			{
-				"command": "extension.launch",
-				"title": "Epicor Customization (TEST)"
-			},
-			{
-				"command": "extension.editinepicor",
-				"title": "Epicor Customization (EDIT CONTROLS)"
-			},
-			{
-				"command": "extension.debug",
-				"title": "Epicor Customization (DEBUG) DnSpy"
 			},
 			{
 				"command": "extension.downloadcustomization",
