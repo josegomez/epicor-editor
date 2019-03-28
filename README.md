@@ -59,6 +59,8 @@ Here is a few animations of the extension in Action
 
 ![Debugging a Customization using DnSpy](images/VSCodeDebug.gif)
 
+![Additional ToolBox Features](images/HammerDrop.gif)
+
 
 ## Known Issues
 
