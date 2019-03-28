@@ -3,7 +3,7 @@ import { EpicorSettings } from "./epicorhelper";
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { window } from "vscode";
-
+import * as path from "path";
 
 import * as epicor from "./epicorhelper";
 import { Uri } from "vscode";
@@ -81,8 +81,8 @@ export function activate(context: vscode.ExtensionContext) {
       // Display a message box to the user
       //vscode.window.showInformationMessage('Hello World!');
 
-	  //window.showInformationMessage('Update');
-	  VersionCheck(epicorSettings);
+      //window.showInformationMessage('Update');
+      VersionCheck(epicorSettings);
       vscode.workspace.saveAll(false);
       var openFolder = vscode.workspace.rootPath;
       delete require.cache[
@@ -106,13 +106,23 @@ export function activate(context: vscode.ExtensionContext) {
       argsAry.push("-m");
       argsAry.push(String(customSettings.Key2));
       argsAry.push("-n");
-      argsAry.push(String(customSettings.Key3)===""?"~":String(customSettings.Key3));
+      argsAry.push(
+        String(customSettings.Key3) === "" ? "~" : String(customSettings.Key3)
+      );
       argsAry.push("-g");
-      argsAry.push(String(customSettings.CSGCode)===""?"~":String(customSettings.CSGCode));
+      argsAry.push(
+        String(customSettings.CSGCode) === ""
+          ? "~"
+          : String(customSettings.CSGCode)
+      );
       argsAry.push("-f");
       argsAry.push(String(epicorSettings.epicorClientFolder));
       argsAry.push("-o");
-      argsAry.push(String(customSettings.Company)===""?"~":String(customSettings.Company));
+      argsAry.push(
+        String(customSettings.Company) === ""
+          ? "~"
+          : String(customSettings.Company)
+      );
       argsAry.push("-r");
       argsAry.push(String(customSettings.Folder));
       argsAry.push("-j");
@@ -150,9 +160,7 @@ export function activate(context: vscode.ExtensionContext) {
       });
     }
   );
-  
-  
-  
+
   let disposable6 = vscode.commands.registerCommand(
     "extension.downloadcustomization",
     () => {
@@ -166,7 +174,7 @@ export function activate(context: vscode.ExtensionContext) {
         require.resolve(openFolder + "/CustomizationInfo.json")
       ];
       const customSettings = require(openFolder + "/CustomizationInfo.json");
-	    VersionCheck(epicorSettings);
+      VersionCheck(epicorSettings);
       var argsAry: string[] = [];
       argsAry.push("-c");
       argsAry.push(String(customSettings.ConfigFile));
@@ -183,13 +191,23 @@ export function activate(context: vscode.ExtensionContext) {
       argsAry.push("-m");
       argsAry.push(String(customSettings.Key2));
       argsAry.push("-n");
-      argsAry.push(String(customSettings.Key3)===""?"~":String(customSettings.Key3));
+      argsAry.push(
+        String(customSettings.Key3) === "" ? "~" : String(customSettings.Key3)
+      );
       argsAry.push("-g");
-      argsAry.push(String(customSettings.CSGCode)===""?"~":String(customSettings.CSGCode));
+      argsAry.push(
+        String(customSettings.CSGCode) === ""
+          ? "~"
+          : String(customSettings.CSGCode)
+      );
       argsAry.push("-f");
       argsAry.push(String(epicorSettings.epicorClientFolder));
       argsAry.push("-o");
-      argsAry.push(String(customSettings.Company)===""?"~":String(customSettings.Company));
+      argsAry.push(
+        String(customSettings.Company) === ""
+          ? "~"
+          : String(customSettings.Company)
+      );
       argsAry.push("-r");
       argsAry.push(String(customSettings.Folder));
       argsAry.push("-j");
@@ -223,14 +241,17 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  let disposable7 = vscode.commands.registerCommand("extension.launchwitht", () => {
-    // The code you place here will be executed every time your command is executed
+  let disposable7 = vscode.commands.registerCommand(
+    "extension.launchwitht",
+    () => {
+      // The code you place here will be executed every time your command is executed
 
-    // Display a message box to the user
-    //vscode.window.showInformationMessage('Hello World!');
-	  VersionCheck(epicorSettings);
-    LaunchInEpicor(epicorSettings,true);
-  });
+      // Display a message box to the user
+      //vscode.window.showInformationMessage('Hello World!');
+      VersionCheck(epicorSettings);
+      LaunchInEpicor(epicorSettings, true);
+    }
+  );
 
   context.subscriptions.push(disposable);
   context.subscriptions.push(disposable2);
@@ -323,13 +344,12 @@ var rand = function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
 };
 
-
-var LaunchInEpicor = function(epicorSettings:EpicorSettings, toolbox:boolean)
-{
+var LaunchInEpicor = function(
+  epicorSettings: EpicorSettings,
+  toolbox: boolean
+) {
   var openFolder = vscode.workspace.rootPath;
-  delete require.cache[
-    require.resolve(openFolder + "/CustomizationInfo.json")
-  ];
+  delete require.cache[require.resolve(openFolder + "/CustomizationInfo.json")];
   const customSettings = require(openFolder + "/CustomizationInfo.json");
 
   var argsAry: string[] = [];
@@ -348,26 +368,37 @@ var LaunchInEpicor = function(epicorSettings:EpicorSettings, toolbox:boolean)
   argsAry.push("-m");
   argsAry.push(String(customSettings.Key2));
   argsAry.push("-n");
-  argsAry.push(String(customSettings.Key3)===""?"~":String(customSettings.Key3));
+  argsAry.push(
+    String(customSettings.Key3) === "" ? "~" : String(customSettings.Key3)
+  );
   argsAry.push("-g");
-  argsAry.push(String(customSettings.CSGCode)===""?"~":String(customSettings.CSGCode));
+  argsAry.push(
+    String(customSettings.CSGCode) === "" ? "~" : String(customSettings.CSGCode)
+  );
   argsAry.push("-f");
   argsAry.push(String(epicorSettings.epicorClientFolder));
   argsAry.push("-o");
-  argsAry.push(String(customSettings.Company)===""?"~":String(customSettings.Company));
+  argsAry.push(
+    String(customSettings.Company) === "" ? "~" : String(customSettings.Company)
+  );
   argsAry.push("-r");
   argsAry.push(String(customSettings.Folder));
   argsAry.push("-j");
   argsAry.push(String(customSettings.ProjectFolder));
   argsAry.push("-y");
-  argsAry.push(String(epicorSettings.DNSpy)===""?"~":String(epicorSettings.DNSpy));
+  argsAry.push(
+    String(epicorSettings.DNSpy) === "" ? "~" : String(epicorSettings.DNSpy)
+  );
   argsAry.push("-d");
-  argsAry.push(String(customSettings.DLLLocation)===""?"~":String(customSettings.DLLLocation));
+  argsAry.push(
+    String(customSettings.DLLLocation) === ""
+      ? "~"
+      : String(customSettings.DLLLocation)
+  );
   argsAry.push("-a");
-  if(toolbox===true){
+  if (toolbox === true) {
     argsAry.push("Toolbox");
-  }
-  else{
+  } else {
     argsAry.push("Launch");
   }
   if (customSettings.Encrypted) {
@@ -382,23 +413,43 @@ var LaunchInEpicor = function(epicorSettings:EpicorSettings, toolbox:boolean)
   );
   bat.stdout.on("data", (data: string) => {
     console.log(String(data));
-    if(String(data)==="EDITMODE")
-    {
+    if (String(data) === "EDITMODE") {
       vscode.workspace.saveAll(false);
-      vscode.workspace.openTextDocument({ language: 'txt' }).then((a: vscode.TextDocument)=> {
-       vscode.window.showTextDocument(a,1,false).then(e=> {
-         e.edit(edit => {
-           edit.insert(new vscode.Position(0,0),"EDITING IN EPICOR PLEASE WAIT. ANY CHANGES MADE HERE BEFORE THIS IS DISMISSED WILL BE OVERWRITTEN!!!");
-         });
-       }); 
-      });
-    }
-    else
-    {
-      if(window.activeTextEditor!==undefined) {
+      const fs = require("fs");
+
+      if (
+        !fs.existsSync(
+          path.join(String(vscode.workspace.rootPath), "alert.txt")
+        )
+      ) 
+      {
+        let txt ="ATTENTION\n\nYou have clicked Edit, Code Wizard, Data Tools or References in the ToolBox.\nThis triggers the edit functionality in epicor and when finished the changes made in epicor are synchronized to VS Code.\nRefrain from making changes here (in your script within VSCode) until this message has been dismissed\nor until the toolbox is closed so that you don't lose any changes.";
+        fs.writeFile(path.join(String(vscode.workspace.rootPath), "alert.txt"),txt, (err:any) => {
+          if (err) {throw err;}
+            vscode.workspace
+              .openTextDocument(
+                path.join(String(vscode.workspace.rootPath), "alert.txt")
+              )
+              .then((a: vscode.TextDocument) => {
+                vscode.window.showTextDocument(a, 1, false);
+              });
+          });
+      } else {
+        vscode.workspace
+          .openTextDocument(
+            path.join(String(vscode.workspace.rootPath), "alert.txt")
+          )
+          .then((a: vscode.TextDocument) => {
+            vscode.window.showTextDocument(a, 1, false);
+          });
+      }
+    } else {
+      if (window.activeTextEditor !== undefined) {
         let te = window.activeTextEditor;
-        if(te.document.fileName.includes("Untitled")){
-          vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+        if (te.document.fileName.includes("alert")) {
+          vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+          const fs = require("fs");
+          fs.unlinkSync(path.join(String(vscode.workspace.rootPath), "alert.txt"));
         }
       }
     }
