@@ -146,3 +146,6 @@ Initial release
 
 ### 0.41.0
 * Bug Fixes
+
+### 0.42.0
+* Conflict Alert for Epicor Sync
