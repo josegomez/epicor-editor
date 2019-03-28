@@ -411,7 +411,7 @@ var LaunchInEpicor = function(
     argsAry,
     { cwd: String(epicorSettings.epicorClientFolder) }
   );
-  var teAlert: vscode.TextEditor| any;
+  var teAlert: vscode.TextEditor | any;
 
   bat.stdout.on("data", (data: string) => {
     console.log(String(data));
@@ -419,36 +419,42 @@ var LaunchInEpicor = function(
       vscode.workspace.saveAll(false);
       const fs = require("fs");
       window.showWarningMessage(
-              "This customization is being Edited in Epicor, please refrain from making changes here in VS Code until you are notified to avoid conflicts! (see above)",
-              "Got it! I won't Touch anything, I promise!"
-            );
+        "This customization is being Edited in Epicor, please refrain from making changes here in VS Code until you are notified to avoid conflicts! (see above)",
+        "Got it! I won't Touch anything, I promise!"
+      );
       if (
         !fs.existsSync(
           path.join(String(vscode.workspace.rootPath), "alert.txt")
         )
-      ) 
-      {
-        let txt ="ATTENTION\n\nYou have clicked Edit, Code Wizard, Data Tools or References in the ToolBox.\nThis triggers the edit functionality in epicor and when finished the changes made in epicor are synchronized to VS Code.\nRefrain from making changes here (in your script within VSCode) until this message has been dismissed\nor until the toolbox is closed so that you don't lose any changes.\n\nNOTE:\nIf you navigate away from this file alert.txt this file will hang around even after Epicor is done, just FYI... \nIf that happens and you are SURE that Epicor is done feel free to close it and move on... otherwise Sit Tight!";
-        fs.writeFile(path.join(String(vscode.workspace.rootPath), "alert.txt"),txt, (err:any) => {
-          if (err) {throw err;}
+      ) {
+        let txt =
+          "ATTENTION\n\nYou have clicked Edit, Code Wizard, Data Tools or References in the ToolBox.\nThis triggers the edit functionality in epicor and when finished the changes made in epicor are synchronized to VS Code.\nRefrain from making changes here (in your script within VSCode) until this message has been dismissed\nor until the toolbox is closed so that you don't lose any changes.\n\nNOTE:\nIf you navigate away from this file alert.txt this file will hang around even after Epicor is done, just FYI... \nIf that happens and you are SURE that Epicor is done feel free to close it and move on... otherwise Sit Tight!";
+        fs.writeFile(
+          path.join(String(vscode.workspace.rootPath), "alert.txt"),
+          txt,
+          (err: any) => {
+            if (err) {
+              throw err;
+            }
             vscode.workspace
               .openTextDocument(
                 path.join(String(vscode.workspace.rootPath), "alert.txt")
               )
               .then((a: vscode.TextDocument) => {
-                vscode.window.showTextDocument(a, 1, false).then(e=>{
-                  teAlert=e;
+                vscode.window.showTextDocument(a, 1, false).then(e => {
+                  teAlert = e;
                 });
               });
-          });
+          }
+        );
       } else {
         vscode.workspace
           .openTextDocument(
             path.join(String(vscode.workspace.rootPath), "alert.txt")
           )
           .then((a: vscode.TextDocument) => {
-            vscode.window.showTextDocument(a, 1, false).then(e=>{
-              teAlert=e;
+            vscode.window.showTextDocument(a, 1, false).then(e => {
+              teAlert = e;
             });
           });
       }
@@ -456,12 +462,11 @@ var LaunchInEpicor = function(
       if (window.activeTextEditor !== undefined) {
         let te = window.activeTextEditor;
         if (te.document.fileName.includes("alert")) {
-          vscode.commands.executeCommand("workbench.action.closeActiveEditor"); 
-        }
-        else{
-          if(teAlert!==undefined){
+          vscode.commands.executeCommand("workbench.action.closeActiveEditor");
+        } else {
+          if (teAlert !== undefined) {
             teAlert.hide();
-            teAlert=undefined;
+            teAlert = undefined;
             window.showInformationMessage(
               "All clear, you may edit your Script in VS Again, the Epicor changes have been synchronized down",
               "Sweet!, Thanks!"
