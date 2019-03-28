@@ -4,6 +4,7 @@ import { EpicorSettings } from "./epicorhelper";
 import * as vscode from "vscode";
 import { window } from "vscode";
 
+
 import * as epicor from "./epicorhelper";
 import { Uri } from "vscode";
 // this method is called when your extension is activated
@@ -381,6 +382,26 @@ var LaunchInEpicor = function(epicorSettings:EpicorSettings, toolbox:boolean)
   );
   bat.stdout.on("data", (data: string) => {
     console.log(String(data));
+    if(String(data)==="EDITMODE")
+    {
+      vscode.workspace.saveAll(false);
+      vscode.workspace.openTextDocument({ language: 'txt' }).then((a: vscode.TextDocument)=> {
+       vscode.window.showTextDocument(a,1,false).then(e=> {
+         e.edit(edit => {
+           edit.insert(new vscode.Position(0,0),"EDITING IN EPICOR PLEASE WAIT. ANY CHANGES MADE HERE BEFORE THIS IS DISMISSED WILL BE OVERWRITTEN!!!");
+         });
+       }); 
+      });
+    }
+    else
+    {
+      if(window.activeTextEditor!==undefined) {
+        let te = window.activeTextEditor;
+        if(te.document.fileName.includes("Untitled")){
+          vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+        }
+      }
+    }
     omniSharpHelper();
   });
 
