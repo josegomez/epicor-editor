@@ -94,7 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
       argsAry.push("-c");
       argsAry.push(String(customSettings.ConfigFile));
       argsAry.push("-u");
-      argsAry.push(String(customSettings.Username));
+      argsAry.push(String(customSettings.Username)===""?"~":String(customSettings.Username));
       argsAry.push("-p");
       argsAry.push(String(customSettings.Password));
       argsAry.push("-t");
@@ -179,7 +179,7 @@ export function activate(context: vscode.ExtensionContext) {
       argsAry.push("-c");
       argsAry.push(String(customSettings.ConfigFile));
       argsAry.push("-u");
-      argsAry.push(String(customSettings.Username));
+      argsAry.push(String(customSettings.Username)===""?"~":String(customSettings.Username));
       argsAry.push("-p");
       argsAry.push(String(customSettings.Password));
       argsAry.push("-t");
@@ -356,7 +356,7 @@ var LaunchInEpicor = function(
   argsAry.push("-c");
   argsAry.push(String(customSettings.ConfigFile));
   argsAry.push("-u");
-  argsAry.push(String(customSettings.Username));
+  argsAry.push(String(customSettings.Username)===""?"~":String(customSettings.Username));
   argsAry.push("-p");
   argsAry.push(String(customSettings.Password));
   argsAry.push("-t");

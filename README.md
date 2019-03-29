@@ -149,3 +149,6 @@ Initial release
 
 ### 0.42.0
 * Conflict Alert for Epicor Sync
+
+### 0.43.0
+* SSO Bug Fix
