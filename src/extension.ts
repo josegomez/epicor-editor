@@ -415,7 +415,7 @@ var LaunchInEpicor = function(
 
   bat.stdout.on("data", (data: string) => {
     console.log(String(data));
-    if (String(data) === "EDITMODE") {
+    if (String(data).trim() === "EDITMODE") {
       vscode.workspace.saveAll(false);
       const fs = require("fs");
       window.showWarningMessage(
