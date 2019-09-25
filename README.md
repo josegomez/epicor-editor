@@ -160,3 +160,6 @@ Initial release
 
 ### 1.7.0
 * Added download link for 10.2.400 library
+
+### 1.8.0
+* Fixed dependency vulnerabilities.
