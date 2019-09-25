@@ -30,6 +30,8 @@ Here is a how to video of how it works, how to use it etc.
 
 * Please note you will have to download the helper library from the following links (based on your version of Epicor) and unzip it into your client folder
 
+    [10.2.400.X](https://josecgomez.com/files/CustomizationHelper.10.2.400.X.zip?0.41.0)
+
     [10.2.300.X](https://josecgomez.com/files/CustomizationHelper.10.2.300.X.zip?0.41.0)
 
     [10.2.200.X](https://josecgomez.com/files/CustomizationHelper.10.2.200.X.zip?0.41.0)
@@ -155,3 +157,6 @@ Initial release
 
 ### 1.6.0
 * Added support for [Visual Studio (big boy)] (https://marketplace.visualstudio.com/items?itemName=josecgomez.EpicorCustomizationEditorVS)
+
+### 1.7.0
+* Added download link for 10.2.400 library
