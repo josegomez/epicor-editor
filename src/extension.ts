@@ -405,6 +405,10 @@ var LaunchInEpicor = function(
     argsAry.push("-e");
     argsAry.push(String(customSettings.Encrypted));
   }
+  if (customSettings.Version) {
+    argsAry.push("-v");
+    argsAry.push(String(customSettings.Version));
+  }
   const { spawn } = require("child_process");
   const bat = spawn(
     epicorSettings.epicorClientFolder + "\\CustomizationEditor.exe",

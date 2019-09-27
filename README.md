@@ -168,3 +168,6 @@ Initial release
 
 ### 1.9.0
 * Added support for 10.2.500.
+
+### 1.10.0
+* Added version checking functionallity to the toolbox.
