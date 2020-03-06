@@ -81,6 +81,6 @@
 		"vsce": "^1.59.0"
 	},
 	"extensionDependencies": [
-		"ms-vscode.csharp"
+		"ms-dotnettools.csharp"
 	]
 }
