@@ -276,7 +276,7 @@ function updateStatusBarItem(): void {
 }
 
 var omniSharpHelper = function() {
-  var omniSharp = vscode.extensions.getExtension("ms-vscode.csharp");
+  var omniSharp = vscode.extensions.getExtension("ms-dotnettools.csharp");
   if (omniSharp !== undefined) {
     if (omniSharp.isActive === false) {
       omniSharp.activate().then(function() {
